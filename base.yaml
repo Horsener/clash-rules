@@ -1,43 +1,31 @@
 mode: rule
 log-level: info
-ipv6: true
-geodata-mode: true
-tcp-concurrent: true
-# dns: # DNS 一般无需设置，DNS 泄露的影响被夸大了。如果你坚持取消注释，请按实际情况调整内容
-#   enable: false
-#   prefer-h3: true
-#   listen: 0.0.0.0:1053
-#   ipv6: true
-#   default-nameserver:
+dns:
+  enable: true
+  ipv6: false
+#   启动服务器，用于解析提供的 nameserver，只能用 IP
+#   default-nameserver: 
 #     - 223.5.5.5
 #     - 119.29.29.29
-#   enhanced-mode: fake-ip
-#   fake-ip-range: 198.18.0.1/16 # fake-ip 池设置
-#   fake-ip-filter:
-#     - "*"
-#     - "+.lan"
-#     - "+.local"
-#   nameserver:
-#     - https://1.1.1.1/dns-query
-#     - https://8.8.8.8/dns-query
-#   nameserver-policy:
-#     "geosite:cn,private":
-#       - https://doh.pub/dns-query
-#       - https://dns.alidns.com/dns-query
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: true
+  nameserver:
+     - 119.29.29.29
+     - 114.114.114.114
+  fallback:
+    - "https://1.1.1.1/dns-query"
+    - "https://dns.cloudflare.com/dns-query"
+    - "https://dns.alidns.com/dns-query"
+    
+#   853 默认被禁
+#     - "tls://8.8.4.4:853"
+#     - tls://dns.mingming.dev:853
 
-sniffer:
-  enable: true
-  force-dns-mapping: true
-  parse-pure-ip: true
-  override-destination: false
-  sniff:
-    HTTP:
-      ports: [80, 8080-8880]
-      override-destination: true
-    TLS:
-      ports: [443, 8443]
-    QUIC:
-      ports: [443, 8443]
-  # force-domain:
-  skip-domain:
-    - Mijia Cloud
+#   满足下列条件时，使用 Fallback 服务器
+#   fallback-filter: 
+#     geoip: true    # 如果来自中国则使用，此处关闭
+#     geoip-code: US
+#     ipcidr: 
+#       - 240.0.0.0/4 # 如果返回的范围是 240.0.0.0 ~ 240.255.255.255 则使用
+#       - 0.0.0.0/32  # 如果返回的 0.0.0.0 则使用
