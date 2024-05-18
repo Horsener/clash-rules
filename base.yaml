@@ -1,6 +1,6 @@
 mode: rule
 log-level: info
-ipv6: true
+ipv6: false
 geodata-mode: true
 tcp-concurrent: true
 # dns: # DNS 一般无需设置，DNS 泄露的影响被夸大了。如果你坚持取消注释，请按实际情况调整内容
