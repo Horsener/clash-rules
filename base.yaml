@@ -3,6 +3,7 @@ log-level: info
 ipv6: true
 geodata-mode: true
 tcp-concurrent: true
+allow-lan: true
 dns: # DNS 一般无需设置，DNS 泄露的影响被夸大了。如果你坚持取消注释，请按实际情况调整内容
   enable: true
   prefer-h3: true
